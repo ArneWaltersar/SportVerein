@@ -12,18 +12,46 @@ package sportverein;
 import java.io.*;
 
 public class MainApplicationManageController {
-
-    public static void storeFootballAssociation(Verein verein) {
+ private static final String FootballAssociationFilepath = "FootballAssociationObjectStorage.txt";
+    public static void storeFootballAssociation(Verein[] FootballAssociationArray) {
         try {
-            File footballAssociationStorageFile = new File(verein.name);
-            FileOutputStream outputStream = new FileOutputStream(footballAssociationStorageFile);
+           
+            File footballAssociationStorageFile = new File(FootballAssociationFilepath);
+            FileOutputStream outputStream = new FileOutputStream(footballAssociationStorageFile, true);
             BufferedOutputStream bos = new BufferedOutputStream(outputStream);
             ObjectOutputStream oos = new ObjectOutputStream(bos);
 
-            oos.writeObject(verein);
+            oos.writeObject(FootballAssociationArray);
+            System.out.println("stored");
             oos.close();
         } catch (IOException ernjo) {
             System.out.println(ernjo.getMessage());
         }
+    }
+    
+    public static void loadFootballAssociatenFile() {
+        try{
+        File FootballAssociationStorageFile = new File(FootballAssociationFilepath);
+        FileInputStream fis = new FileInputStream(FootballAssociationStorageFile);
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        
+        Object read = null;
+       
+        while(true) {
+            try {
+                read = ois.readObject();
+                System.out.println(read.toString());
+            } catch(Exception e ) {
+                break;
+            }
+                
+        }
+        
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 }
