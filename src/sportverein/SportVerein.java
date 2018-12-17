@@ -23,6 +23,7 @@ public class SportVerein extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -47,15 +48,18 @@ public class SportVerein extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
-        //Verein[] vereine = new Verein[3];
+       
         ArrayList<Verein> Vereine = new ArrayList<Verein>();
-        Vereine.add(new Verein("Lauxel l"));
-        Vereine.add(new Verein("Lauxel 2"));
-        Vereine.add(new Verein("Lauxel 3"));
+        Vereine.add(new Verein("Erster Lauxel"));
+        Vereine.add(new Verein("Zweiter Lauxel"));
+        Vereine.add(new Verein("Dritter Lauxel"));
+        Vereine.add(new Verein("Vierter Lauxel"));
+        Vereine.add(new Verein("Fünfter Lauxel"));
 
         MainApplicationManageController.storeFootballAssociation(Vereine);
+        
         Vereine = MainApplicationManageController.loadFootballAssociatenFile();
+        System.out.println("--------");
         ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
         while (Vereine.size() > 0) {
             if (Vereine.size() > 1) {
@@ -68,11 +72,19 @@ public class SportVerein extends Application {
 
             }
         }
+        
         for (Paarung p : Paarungen) {
             System.out.println(p.toString());
         }
-
-        Runtime.getRuntime().exit(0);
+        System.out.println("--------");
+        
+        for (Paarung p : Paarungen) {
+            System.out.println(p.toStringWithResult());
+        }
+        GUI gui = new GUI();
+        gui.setVisible(true);
+        System.out.println("--------");
+        //Runtime.getRuntime().exit(0);
     }
 
 }

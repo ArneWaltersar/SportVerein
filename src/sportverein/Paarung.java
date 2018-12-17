@@ -5,6 +5,7 @@
  */
 package sportverein;
 import java.io.*;
+import java.util.concurrent.ThreadLocalRandom;
 /**
  *
  * @author Jakob
@@ -18,12 +19,21 @@ public class Paarung implements Serializable{
     public Paarung(Verein Verein1, Verein Verein2) {
         this.verein1 = Verein1;
         this.verein2 = Verein2;
+        this.ergebnis1 = ThreadLocalRandom.current().nextInt(0, 8 + 1);
+        this.ergebnis2 = ThreadLocalRandom.current().nextInt(0, 8 + 1);
     }
     
     public String toString() {
        if(verein2 == null) {
-           return this.verein1 + " ist spielfrei";
+           return this.verein1 + " ist spielfrei.";
        }
        return this.verein1 + " - " + this.verein2;
+    }
+    
+    public String toStringWithResult() {
+        if(verein2 == null) {
+            return "";
+        }
+        return this.verein1 + " " + ergebnis1 + " - " + ergebnis2 + " " + this.verein2;
     }
 }
