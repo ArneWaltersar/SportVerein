@@ -166,9 +166,10 @@ public class GUI extends javax.swing.JFrame {
         //System.out.println("Button confirm");
         //System.out.println(jRadioButton4.isSelected());
         if(jRadioButton1.isSelected()) {
-            if(!jTextArea1.getText().equals("") && !jTextArea1.getText().equals("Verein gespeichert!") && !jTextArea1.getText().equals("Verein konnte nicht gespeichert werden!")) {
+            String content = jTextArea1.getText();
+            if(!content.equals("") && !content.equals("Verein gespeichert!") && !content.equals("Verein konnte nicht gespeichtert werden!")) {
                 ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
-                Vereine.add(new Verein(jTextArea1.getText()));
+                Vereine.add(new Verein(content));
                 MainApplicationManageController.storeFootballAssociation(Vereine);
                 jTextArea1.setText("Verein gespeichert!");
             } else {
@@ -190,7 +191,7 @@ public class GUI extends javax.swing.JFrame {
             
         } else if (jRadioButton4.isSelected()) {
             ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
-            Collections.shuffle(Vereine);
+            //Collections.shuffle(Vereine);
             ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
             while (Vereine.size() > 0) {
                 if (Vereine.size() > 1) {
