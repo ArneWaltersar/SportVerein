@@ -11,10 +11,11 @@ package sportverein;
  */
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainApplicationManageController {
 
-    private static final String FootballAssociationFilepath = "FootballAssociationObjectStorage.txt";
+    public static final String FootballAssociationFilepath = "FootballAssociationObjectStorage.txt";
 
     public static void storeFootballAssociation(ArrayList<Verein> FootballAssociationArray) {
         try {
@@ -45,8 +46,9 @@ public class MainApplicationManageController {
             try {
 
                 read = (ArrayList<Verein>) ois.readObject();
+                //Collections.shuffle(read);
                 for (Verein v : read) {
-                    System.out.println(v.toString());
+                    //System.out.println(v.toString());
                 }
 
             } catch (Exception e) {
