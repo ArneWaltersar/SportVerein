@@ -5,6 +5,10 @@
  */
 package sportverein;
 
+import java.util.ArrayList;
+import java.io.*;
+import java.util.Collections;
+
 /**
  *
  * @author rauerjakob
@@ -42,7 +46,8 @@ public class GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Vereine erfassen");
+        jRadioButton1.setText("Verein erfassen");
+        jRadioButton1.setActionCommand("Verein erfassen");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -50,13 +55,29 @@ public class GUI extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Tabelle Ausgeben");
+        jRadioButton2.setActionCommand("Vereine Ausgeben");
+        jRadioButton2.setLabel("Vereine Ausgeben");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("Spielpaarung generieren");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setText("Spielpaarung ausgeben");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton5);
         jRadioButton5.setText("Ergebnisse erfassen");
@@ -68,6 +89,11 @@ public class GUI extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton6);
         jRadioButton6.setText("Ende");
+        jRadioButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton6ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -76,6 +102,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Auswahl:");
 
         jButton2.setText("Start");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                c(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,14 +161,106 @@ public class GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+ 
+    private void c(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c
+        //System.out.println("Button confirm");
+        //System.out.println(jRadioButton4.isSelected());
+        if(jRadioButton1.isSelected()) {
+            if(!jTextArea1.getText().equals("") && !jTextArea1.getText().equals("Verein gespeichert!") && !jTextArea1.getText().equals("Verein konnte nicht gespeichert werden!")) {
+                ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
+                Vereine.add(new Verein(jTextArea1.getText()));
+                MainApplicationManageController.storeFootballAssociation(Vereine);
+                jTextArea1.setText("Verein gespeichert!");
+            } else {
+                jTextArea1.setText("Verein konnte nicht gespeichert werden!");
+            }
+            
+        } else if(jRadioButton2.isSelected()) {
+            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
+            
+            String text = "";
+                for (Verein v : Vereine) {
+                    System.out.println(v.toString());
+                    text += v.toString()+"\n";
+                }
+                jTextArea1.setText(text);
+            
+        } else if (jRadioButton3.isSelected()) {
+            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
+            
+        } else if (jRadioButton4.isSelected()) {
+            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
+            Collections.shuffle(Vereine);
+            ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
+            while (Vereine.size() > 0) {
+                if (Vereine.size() > 1) {
+                    Paarungen.add(new Paarung(Vereine.get(0), Vereine.get(1)));
+                    Vereine.remove(0);
+                    Vereine.remove(0);
+                } else {
+                    Paarungen.add(new Paarung(Vereine.get(0), null));
+                    Vereine.remove(0);
+
+                }
+            }
+            String text = "";
+            for (Paarung p : Paarungen) {
+                System.out.println(p.toString());
+                text += p.toString()+"\n";
+            }
+            jTextArea1.setText(text);
+            
+        } else if (jRadioButton5.isSelected()) {
+            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
+            
+            ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
+            while (Vereine.size() > 0) {
+                if (Vereine.size() > 1) {
+                    Paarungen.add(new Paarung(Vereine.get(0), Vereine.get(1)));
+                    Vereine.remove(0);
+                    Vereine.remove(0);
+                } else {
+                    Paarungen.add(new Paarung(Vereine.get(0), null));
+                    Vereine.remove(0);
+
+                }
+            }
+            String text = "";
+            for (Paarung p : Paarungen) {
+                System.out.println(p.toStringWithResult());
+                text += p.toStringWithResult()+"\n";
+            }
+            jTextArea1.setText(text);
+            
+        } else if (jRadioButton6.isSelected()) { //Speichern
+            //MainApplicationManageController.storeFootballAssociation(MainApplicationManageController.);
+            Runtime.getRuntime().exit(0);
+        }
+    }//GEN-LAST:event_c
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        System.out.println("Button1");
+        jTextArea1.setText("");
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
     private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
-        System.out.println("Button5");
+        jTextArea1.setText("");
     }//GEN-LAST:event_jRadioButton5ActionPerformed
+
+    private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jRadioButton6ActionPerformed
        
     /**
      * @param args the command line arguments
