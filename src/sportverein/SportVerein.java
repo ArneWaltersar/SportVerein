@@ -50,11 +50,11 @@ public class SportVerein extends Application {
     public static void main(String[] args) {
        
         ArrayList<Verein> Vereine = new ArrayList<Verein>();
-        Vereine.add(new Verein("Erster Lauxel"));
-        Vereine.add(new Verein("Zweiter Lauxel"));
-        Vereine.add(new Verein("Dritter Lauxel"));
-        Vereine.add(new Verein("Vierter Lauxel"));
-        Vereine.add(new Verein("Fünfter Lauxel"));
+        Vereine.add(new Verein("cdtz"));
+        Vereine.add(new Verein("fk"));
+        Vereine.add(new Verein("tiuztzitzitcdtz"));
+        Vereine.add(new Verein("uztziufk"));
+       
 
         MainApplicationManageController.storeFootballAssociation(Vereine);
         
