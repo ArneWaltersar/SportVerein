@@ -19,8 +19,22 @@ public class Paarung implements Serializable{
     public Paarung(Verein Verein1, Verein Verein2) {
         this.verein1 = Verein1;
         this.verein2 = Verein2;
-        this.ergebnis1 = ThreadLocalRandom.current().nextInt(0, 8 + 1);
-        this.ergebnis2 = ThreadLocalRandom.current().nextInt(0, 8 + 1);
+        /*this.ergebnis1 = ThreadLocalRandom.current().nextInt(0, 8 + 1);
+        this.ergebnis2 = ThreadLocalRandom.current().nextInt(0, 8 + 1);*/
+    }
+    
+    public void setResults(int ergebnis1, int ergebnis2) {
+        this.ergebnis1 = ergebnis1;
+        this.ergebnis2 = ergebnis2;
+        
+        if(ergebnis1 > ergebnis2) {
+            this.verein1.punkte += 3;
+        } else if (ergebnis1 < ergebnis2) {
+            this.verein2.punkte += 3;
+        } else {
+            this.verein1.punkte += 1;
+            this.verein2.punkte += 1;
+        }
     }
     
     public String toString() {

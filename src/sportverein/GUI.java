@@ -15,6 +15,9 @@ import java.util.Collections;
  */
 public class GUI extends javax.swing.JFrame {
 
+    ArrayList<Paarung> paarung = new ArrayList<Paarung>();
+    
+    
     /**
      * Creates new form GUI
      */
@@ -47,7 +50,6 @@ public class GUI extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Verein erfassen");
-        jRadioButton1.setActionCommand("Verein erfassen");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -117,23 +119,23 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton4)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton1))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton5)
                             .addComponent(jRadioButton6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addGap(117, 117, 117))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioButton3)
+                            .addComponent(jRadioButton2)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton4)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 34, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,31 +181,44 @@ public class GUI extends javax.swing.JFrame {
         } else if(jRadioButton2.isSelected()) {
             ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
             
-            String text = "";
+            String text = "Verein - Punkte - Tor Differenz - Tore - Gegentore \n";
+            /*Integer i = 0;
+            for (Verein v : Vereine) {
+                    v.punkte = i;
+                    i++;
+                }*/
+            Collections.sort(Vereine);
                 for (Verein v : Vereine) {
-                    System.out.println(v.toString());
-                    text += v.toString()+"\n";
+                    System.out.println(v.toStringTable());
+                    text += v.toStringTable()+"\n";
                 }
                 jTextArea1.setText(text);
             
         } else if (jRadioButton3.isSelected()) {
             ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
-            
+            ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
+           
+            for (Verein l : Vereine) {
+                for(Verein r : Vereine) {
+                    if(l.name != r.name) {
+                        Paarungen.add(new Paarung(l, r));
+                    }
+                }
+            }
+            this.paarung = Paarungen;
+                    
         } else if (jRadioButton4.isSelected()) {
             ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
             //Collections.shuffle(Vereine);
-            ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
-            while (Vereine.size() > 0) {
-                if (Vereine.size() > 1) {
-                    Paarungen.add(new Paarung(Vereine.get(0), Vereine.get(1)));
-                    Vereine.remove(0);
-                    Vereine.remove(0);
-                } else {
-                    Paarungen.add(new Paarung(Vereine.get(0), null));
-                    Vereine.remove(0);
-
+            ArrayList<Paarung> Paarungen = this.paarung;
+           
+           /* for (Verein l : Vereine) {
+                for(Verein r : Vereine) {
+                    if(l.name != r.name) {
+                        Paarungen.add(new Paarung(l, r));
+                    }
                 }
-            }
+            }*/
             String text = "";
             for (Paarung p : Paarungen) {
                 System.out.println(p.toString());
@@ -212,27 +227,8 @@ public class GUI extends javax.swing.JFrame {
             jTextArea1.setText(text);
             
         } else if (jRadioButton5.isSelected()) {
-            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
             
-            ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
-            while (Vereine.size() > 0) {
-                if (Vereine.size() > 1) {
-                    Paarungen.add(new Paarung(Vereine.get(0), Vereine.get(1)));
-                    Vereine.remove(0);
-                    Vereine.remove(0);
-                } else {
-                    Paarungen.add(new Paarung(Vereine.get(0), null));
-                    Vereine.remove(0);
-
-                }
-            }
-            String text = "";
-            for (Paarung p : Paarungen) {
-                System.out.println(p.toStringWithResult());
-                text += p.toStringWithResult()+"\n";
-            }
-            jTextArea1.setText(text);
-            
+         
         } else if (jRadioButton6.isSelected()) { //Speichern
             //MainApplicationManageController.storeFootballAssociation(MainApplicationManageController.);
             Runtime.getRuntime().exit(0);
