@@ -16,12 +16,14 @@ import java.util.Collections;
 public class GUI extends javax.swing.JFrame {
 
     ArrayList<Paarung> paarung = new ArrayList<Paarung>();
+    ArrayList<Verein> vereine;
     
     
     /**
      * Creates new form GUI
      */
     public GUI() {
+        vereine = MainApplicationManageController.loadFootballAssociatenFile();
         initComponents();
     }
 
@@ -35,6 +37,7 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
@@ -103,7 +106,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel1.setText("Auswahl:");
 
-        jButton2.setText("Start");
+        jButton2.setText("Ausführen");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 c(evt);
@@ -117,25 +120,24 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jRadioButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2)))
+                        .addGap(56, 56, 56))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton5)
-                            .addComponent(jRadioButton6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(117, 117, 117))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton4)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jRadioButton4)
+                                .addComponent(jRadioButton5)
+                                .addComponent(jRadioButton3)
+                                .addComponent(jRadioButton2)
+                                .addComponent(jRadioButton1)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,7 +159,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jRadioButton6)
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -169,17 +171,15 @@ public class GUI extends javax.swing.JFrame {
         //System.out.println(jRadioButton4.isSelected());
         if(jRadioButton1.isSelected()) {
             String content = jTextArea1.getText();
-            if(!content.equals("") && !content.equals("Verein gespeichert!") && !content.equals("Verein konnte nicht gespeichtert werden!")) {
-                ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
-                Vereine.add(new Verein(content));
-                MainApplicationManageController.storeFootballAssociation(Vereine);
+            if(!content.equals("") && !content.equals("Verein gespeichert!") && !content.equals("Verein konnte nicht gespeichert werden!")) {
+                vereine.add(new Verein(content));
+                MainApplicationManageController.storeFootballAssociation(vereine);
                 jTextArea1.setText("Verein gespeichert!");
             } else {
                 jTextArea1.setText("Verein konnte nicht gespeichert werden!");
             }
             
         } else if(jRadioButton2.isSelected()) {
-            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
             
             String text = "Verein - Punkte - Tor Differenz - Tore - Gegentore \n";
             /*Integer i = 0;
@@ -187,19 +187,18 @@ public class GUI extends javax.swing.JFrame {
                     v.punkte = i;
                     i++;
                 }*/
-            Collections.sort(Vereine);
-                for (Verein v : Vereine) {
+            Collections.sort(vereine);
+                for (Verein v : vereine) {
                     System.out.println(v.toStringTable());
                     text += v.toStringTable()+"\n";
                 }
                 jTextArea1.setText(text);
             
         } else if (jRadioButton3.isSelected()) {
-            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
             ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
            
-            for (Verein l : Vereine) {
-                for(Verein r : Vereine) {
+            for (Verein l : vereine) {
+                for(Verein r : vereine) {
                     if(l.name != r.name) {
                         Paarungen.add(new Paarung(l, r));
                     }
@@ -208,17 +207,8 @@ public class GUI extends javax.swing.JFrame {
             this.paarung = Paarungen;
                     
         } else if (jRadioButton4.isSelected()) {
-            ArrayList<Verein> Vereine = MainApplicationManageController.loadFootballAssociatenFile();
-            //Collections.shuffle(Vereine);
             ArrayList<Paarung> Paarungen = this.paarung;
-           
-           /* for (Verein l : Vereine) {
-                for(Verein r : Vereine) {
-                    if(l.name != r.name) {
-                        Paarungen.add(new Paarung(l, r));
-                    }
-                }
-            }*/
+          
             String text = "";
             for (Paarung p : Paarungen) {
                 System.out.println(p.toString());
@@ -226,8 +216,10 @@ public class GUI extends javax.swing.JFrame {
             }
             jTextArea1.setText(text);
             
-        } else if (jRadioButton5.isSelected()) {
-            
+        } else if (jRadioButton5.isSelected()) { // Ergebnisse eintragen
+            GUI2 gui2 = new GUI2();
+            gui2.setPaarungen(this.paarung);
+            gui2.setVisible(true);
          
         } else if (jRadioButton6.isSelected()) { //Speichern
             //MainApplicationManageController.storeFootballAssociation(MainApplicationManageController.);
@@ -298,6 +290,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
