@@ -33,6 +33,7 @@ public class GUI2 extends javax.swing.JFrame {
     public void setPaarungen(ArrayList<Paarung> Paarungen) {
         int i = 10;
         paarung = Paarungen;
+        this.setSize(350, (paarung.size()+1) * 37);
         for (Paarung p : Paarungen) {
 
             TextField b4 = new TextField("0");
@@ -129,17 +130,11 @@ public class GUI2 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 277, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 537, Short.MAX_VALUE)
         );
 
         pack();

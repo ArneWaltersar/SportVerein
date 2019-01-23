@@ -15,7 +15,7 @@ import java.util.Collections;
  */
 public class GUI extends javax.swing.JFrame {
 
-    ArrayList<Paarung> paarung = new ArrayList<Paarung>();
+    ArrayList<Paarung> paarung;
     ArrayList<Verein> vereine;
     
     
@@ -23,7 +23,20 @@ public class GUI extends javax.swing.JFrame {
      * Creates new form GUI
      */
     public GUI() {
-        vereine = MainApplicationManageController.loadFootballAssociatenFile();
+        File file = new File(MainApplicationManageController.FootballAssociationFilepath);
+        if (file.exists()){
+            vereine = MainApplicationManageController.loadFootballAssociatenFile();
+        } else {
+            vereine = new ArrayList<Verein>();
+        }
+        
+        File file2 = new File(MainApplicationManageController.PairingFilepath);
+        if (file2.exists()){
+            paarung = MainApplicationManageController.loadPairingFile();
+        } else {
+            paarung = new ArrayList<Paarung>();
+        }
+        //vereine = MainApplicationManageController.loadFootballAssociatenFile();
         initComponents();
     }
 
@@ -196,7 +209,6 @@ public class GUI extends javax.swing.JFrame {
             
         } else if (jRadioButton3.isSelected()) {
             ArrayList<Paarung> Paarungen = new ArrayList<Paarung>();
-           
             for (Verein l : vereine) {
                 for(Verein r : vereine) {
                     if(l.name != r.name) {
@@ -205,9 +217,11 @@ public class GUI extends javax.swing.JFrame {
                 }
             }
             this.paarung = Paarungen;
+            MainApplicationManageController.storePairing(Paarungen);
                     
         } else if (jRadioButton4.isSelected()) {
-            ArrayList<Paarung> Paarungen = this.paarung;
+            ArrayList<Paarung> Paarungen = MainApplicationManageController.loadPairingFile();
+            System.out.print(Paarungen.size());
           
             String text = "";
             for (Paarung p : Paarungen) {

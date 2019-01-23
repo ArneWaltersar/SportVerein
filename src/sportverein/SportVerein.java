@@ -49,7 +49,7 @@ public class SportVerein extends Application {
      */
     public static void main(String[] args) {
        
-        ArrayList<Verein> Vereine = new ArrayList<Verein>();
+        /*ArrayList<Verein> Vereine = new ArrayList<Verein>();
         Vereine.add(new Verein("HSV"));
         Vereine.add(new Verein("BVB"));
        
@@ -78,7 +78,7 @@ public class SportVerein extends Application {
         
         for (Paarung p : Paarungen) {
             System.out.println(p.toStringWithResult());
-        }
+        }*/
         GUI gui = new GUI();
         gui.setVisible(true);
         System.out.println("--------");

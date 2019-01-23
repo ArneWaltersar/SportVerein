@@ -16,6 +16,7 @@ import java.util.Collections;
 public class MainApplicationManageController {
 
     public static final String FootballAssociationFilepath = "FootballAssociationObjectStorage.txt";
+    public static final String PairingFilepath = "PairingObjectStorage.txt";
 
     public static void storeFootballAssociation(ArrayList<Verein> FootballAssociationArray) {
         try {
@@ -53,6 +54,49 @@ public class MainApplicationManageController {
 
             } catch (Exception e) {
                 return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return read;
+    }
+    
+    public static void storePairing(ArrayList<Paarung> PairingArray) {
+        try {
+
+            File PairingStorageFile = new File(PairingFilepath);
+            FileOutputStream outputStream = new FileOutputStream(PairingFilepath);
+            BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+            oos.writeObject(PairingArray);
+            System.out.println("stored");
+
+            oos.close();
+        } catch (IOException ernjo) {
+            System.out.println(ernjo.getMessage());
+        }
+    }
+    
+    public static ArrayList<Paarung> loadPairingFile() {
+        ArrayList<Paarung> read = null;
+
+        try {
+            File PairingStorageFile = new File(PairingFilepath);
+            FileInputStream fis = new FileInputStream(PairingStorageFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            ObjectInputStream ois = new ObjectInputStream(bis);
+
+            try {
+
+                read = (ArrayList<Paarung>) ois.readObject();
+                //Collections.shuffle(read);
+                for (Paarung v : read) {
+                    //System.out.println(v.toString());
+                }
+
+            } catch (Exception e) {
             }
 
         } catch (Exception e) {
