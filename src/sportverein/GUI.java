@@ -217,6 +217,12 @@ public class GUI extends javax.swing.JFrame {
                 }
             }
             this.paarung = Paarungen;
+            if(this.paarung.size() > 1) {
+                jTextArea1.setText("Paarungen generiert");
+            } else {
+                jTextArea1.setText("Paarungen nicht generiert");
+            }
+            
             MainApplicationManageController.storePairing(Paarungen);
                     
         } else if (jRadioButton4.isSelected()) {

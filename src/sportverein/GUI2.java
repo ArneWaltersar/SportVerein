@@ -33,7 +33,7 @@ public class GUI2 extends javax.swing.JFrame {
     public void setPaarungen(ArrayList<Paarung> Paarungen) {
         int i = 10;
         paarung = Paarungen;
-        this.setSize(350, (paarung.size()+1) * 37);
+        this.setSize(350, (paarung.size()+1) * 45);
         for (Paarung p : Paarungen) {
 
             TextField b4 = new TextField("0");

@@ -37,12 +37,16 @@ public class MainApplicationManageController {
 
     public static ArrayList<Verein> loadFootballAssociatenFile() {
         ArrayList<Verein> read = null;
+        File FootballAssociationStorageFile = null;
+        FileInputStream fis  = null;
+        BufferedInputStream bis  = null;
+        ObjectInputStream ois  = null;
 
         try {
-            File FootballAssociationStorageFile = new File(FootballAssociationFilepath);
-            FileInputStream fis = new FileInputStream(FootballAssociationStorageFile);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            ObjectInputStream ois = new ObjectInputStream(bis);
+            FootballAssociationStorageFile = new File(FootballAssociationFilepath);
+            fis = new FileInputStream(FootballAssociationStorageFile);
+            bis = new BufferedInputStream(fis);
+            ois = new ObjectInputStream(bis);
 
             try {
 
@@ -59,6 +63,15 @@ public class MainApplicationManageController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        finally {
+            try {
+                ois.close();
+            } catch(Exception e) {
+                
+            }
+        }
+        
         return read;
     }
     
@@ -82,12 +95,17 @@ public class MainApplicationManageController {
     public static ArrayList<Paarung> loadPairingFile() {
         ArrayList<Paarung> read = null;
 
+        File PairingStorageFile = null;
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        ObjectInputStream ois = null;
+        
         try {
-            File PairingStorageFile = new File(PairingFilepath);
-            FileInputStream fis = new FileInputStream(PairingStorageFile);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            ObjectInputStream ois = new ObjectInputStream(bis);
-
+            PairingStorageFile = new File(PairingFilepath);
+            fis = new FileInputStream(PairingStorageFile);
+            bis = new BufferedInputStream(fis);
+            ois = new ObjectInputStream(bis);
+           
             try {
 
                 read = (ArrayList<Paarung>) ois.readObject();
@@ -98,10 +116,19 @@ public class MainApplicationManageController {
 
             } catch (Exception e) {
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        finally {
+            try {
+                ois.close();
+            } catch(Exception e) {
+                
+            }
+        }
+        
         return read;
     }
 }
